@@ -3,7 +3,10 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
+	"net"
 	"net/http"
+	"os"
 	"runtime"
 	"sync"
 	"time"
@@ -46,51 +49,79 @@ func doWork() {
 	wg.Wait()
 }
 
-func handle(rw http.ResponseWriter, r *http.Request) {
+func handler(logger *log.Logger) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 
-	doWork()
+		logClientIP(logger, r)
 
-	var err error
-	rr := &request{}
-	rr.Method = r.Method
-	rr.Headers = r.Header
-	rr.URL = r.URL.String()
-	rr.Body, err = ioutil.ReadAll(r.Body)
-	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
-	}
+		doWork()
 
-	rrb, err := json.Marshal(rr)
-	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
-	}
+		var err error
+		rr := &request{}
+		rr.Method = r.Method
+		rr.Headers = r.Header
+		rr.URL = r.URL.String()
+		rr.Body, err = ioutil.ReadAll(r.Body)
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(rrb)
+		rrb, err := json.Marshal(rr)
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		rw.Header().Set("Content-Type", "application/json")
+		rw.Write(rrb)
+
+	})
 }
 
-func delayHandle(rw http.ResponseWriter, r *http.Request) {
+func delayHandler(logger *log.Logger) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 
-	done := make(chan int)
+		logClientIP(logger, r)
 
-	go func() {
-		for {
-			select {
-			case <-done:
-			default:
+		done := make(chan int)
+
+		go func() {
+			for {
+				select {
+				case <-done:
+				default:
+				}
 			}
-		}
-	}()
+		}()
 
-	time.Sleep(10 * time.Second)
-	close(done)
+		time.Sleep(10 * time.Second)
+		close(done)
 
+	})
+}
+
+func logClientIP(logger *log.Logger, r *http.Request) {
+
+	ip, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		return
+	}
+
+	clientIP := net.ParseIP(ip)
+	if clientIP == nil {
+		return
+	}
+
+	logger.Printf("Request received from %s", clientIP)
 }
 
 func main() {
-	http.HandleFunc("/", handle)
-	http.HandleFunc("/delay", delayHandle)
+
+	logger := log.New(os.Stdout, "", log.LstdFlags)
+	logger.Println("Server is starting...")
+
+	http.Handle("/", handler(logger))
+	http.Handle("/delay", delayHandler(logger))
 	http.ListenAndServe(":8000", nil)
 }
