@@ -7,8 +7,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"runtime"
-	"sync"
 	"time"
 )
 
@@ -26,27 +24,16 @@ const (
 
 func doWork() {
 
-	var wg sync.WaitGroup
 	done := make(chan int)
-	numCPU := runtime.NumCPU()
 
-	for i := 0; i < numCPU; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-
-			for j := 0; j < loopCount; j++ {
-				select {
-				case <-done:
-					return
-				default:
-				}
-			}
-
-		}()
+	for i := 0; i < loopCount; i++ {
+		select {
+		case <-done:
+			return
+		default:
+		}
 	}
 
-	wg.Wait()
 }
 
 func handler(logger *log.Logger) http.Handler {
