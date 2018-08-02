@@ -18,7 +18,7 @@ type request struct {
 }
 
 const (
-	loopCount      = 50000000
+	loopCount      = 1
 	delayWorkCount = 50000000
 )
 
