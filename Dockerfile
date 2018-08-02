@@ -11,4 +11,4 @@ RUN go install
 CMD ["goldengoose"]
 
 # Expose HTTP port and set necessary environment variables
-EXPOSE 8080
+EXPOSE 80
