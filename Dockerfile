@@ -1,8 +1,5 @@
 FROM golang:1.6.0-alpine
 
-# Expose HTTP port and set necessary environment variables
-EXPOSE 8000
-
 # copy source code into the $GOPATH and switch to that directory
 COPY . ${GOPATH}/src/github.com/dippynark/goldengoose
 WORKDIR ${GOPATH}/src/github.com/dippynark/goldengoose
@@ -12,3 +9,6 @@ RUN go install
 
 # the default command runs the service in the foreground
 CMD ["goldengoose"]
+
+# Expose HTTP port and set necessary environment variables
+EXPOSE 80
