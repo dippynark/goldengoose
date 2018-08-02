@@ -110,5 +110,5 @@ func main() {
 
 	http.Handle("/", handler(logger))
 	http.Handle("/delay", delayHandler(logger))
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":80", nil)
 }
