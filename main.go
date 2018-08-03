@@ -73,16 +73,7 @@ func delayHandler(logger *log.Logger) http.Handler {
 
 		done := make(chan int)
 
-		go func() {
-			for {
-				select {
-				case <-done:
-				default:
-				}
-			}
-		}()
-
-		time.Sleep(10 * time.Second)
+		time.Sleep(1 * time.Second)
 		close(done)
 
 	})
