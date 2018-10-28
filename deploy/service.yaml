@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: goldengoose
+  namespace: goldengoose
+  labels:
+    app: goldengoose
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+  selector:
+    app: goldengoose
+    track: prod
