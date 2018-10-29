@@ -20,6 +20,9 @@ spec:
         image: dippynark/goldengoose
         ports:
         - containerPort: 8000
+        resources:
+          requests:
+            memory: 100Mi
         readinessProbe:
           timeoutSeconds: 2
           httpGet:
