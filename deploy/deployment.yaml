@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: goldengoose
-        image: dippynark/goldengoose
+        image: index.docker.io/dippynark/goldengoose
         ports:
         - containerPort: 8000
         resources:
