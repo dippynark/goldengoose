@@ -8,12 +8,12 @@ spec:
   selector:
     matchLabels:
       app: goldengoose
-      track: prod
+      track: canary
   template:
     metadata:
       labels:
         app: goldengoose
-        track: prod
+        track: canary
     spec:
       containers:
       - name: goldengoose
