@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary
+  namespace: goldengoose
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: goldengoose
+      track: prod
+  template:
+    metadata:
+      labels:
+        app: goldengoose
+        track: prod
+    spec:
+      containers:
+      - name: goldengoose
+        image: index.docker.io/dippynark/goldengoose
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: 100Mi
+        readinessProbe:
+          timeoutSeconds: 2
+          httpGet:
+            path: /
+            port: 8000
+        livenessProbe:
+          timeoutSeconds: 10
+          httpGet:
+            path: /
+            port: 8000
