@@ -1,4 +1,4 @@
-FROM golang:1.6.0-alpine
+FROM golang:1.10-alpine
 
 # Expose HTTP port and set necessary environment variables
 EXPOSE 8000
