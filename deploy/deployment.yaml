@@ -22,7 +22,8 @@ spec:
         - containerPort: 8000
         resources:
           requests:
-            memory: 100Mi
+            memory: 50Mi
+            cpu: 200m
         readinessProbe:
           timeoutSeconds: 2
           httpGet:
