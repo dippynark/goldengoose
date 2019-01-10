@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type request struct {
@@ -110,5 +112,6 @@ func main() {
 
 	http.Handle("/", handler(logger))
 	http.Handle("/delay", delayHandler(logger))
+	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":8000", nil)
 }
