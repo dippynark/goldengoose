@@ -8,9 +8,21 @@
   revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
 
 [[projects]]
+  name = "github.com/felixge/httpsnoop"
+  packages = ["."]
+  revision = "eadd4fad6aac69ae62379194fe0219f3dbc80fd3"
+  version = "v1.0.0"
+
+[[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
+
+[[projects]]
+  name = "github.com/julienschmidt/httprouter"
+  packages = ["."]
+  revision = "348b672cd90d8190f8240323e372ecd1e66b59dc"
   version = "v1.2.0"
 
 [[projects]]
@@ -59,6 +71,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "4864565d7f00fdf85c9197d5701e63d6138b349bfb82e980ef97a140062c401d"
+  inputs-digest = "f3ed7d56e247d6676a5705f0c6d35dcf57a02ff1c15b9d8d139933f393642131"
   solver-name = "gps-cdcl"
   solver-version = 1
