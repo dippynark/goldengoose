@@ -7,8 +7,12 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
+	"github.com/felixge/httpsnoop"
+	"github.com/julienschmidt/httprouter"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -17,6 +21,23 @@ type request struct {
 	Method  string      `json:"method"`
 	Headers http.Header `json:"headers"`
 	Body    []byte      `json:"body"`
+}
+
+func init() {
+	prometheus.MustRegister(requestDuration)
+}
+
+var requestDuration = prometheus.NewHistogramVec(prometheus.HistogramOpts{
+	Name:    "request_duration_seconds",
+	Help:    "Time serving HTTP request",
+	Buckets: prometheus.DefBuckets,
+}, []string{"method", "route", "status_code"})
+
+func promMiddleware(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		m := httpsnoop.CaptureMetrics(h, w, r)
+		requestDuration.WithLabelValues(r.Method, r.URL.Path, strconv.Itoa(m.Code)).Observe(m.Duration.Seconds())
+	})
 }
 
 const (
@@ -110,8 +131,10 @@ func main() {
 	logger := log.New(os.Stdout, "", log.LstdFlags)
 	logger.Println("Server is starting...")
 
-	http.Handle("/", handler(logger))
-	http.Handle("/delay", delayHandler(logger))
-	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe(":8000", nil)
+	r := httprouter.New()
+	r.Handler("GET", "/", handler(logger))
+	r.Handler("GET", "/delay", delayHandler(logger))
+	r.Handler("GET", "/metrics", promhttp.Handler())
+
+	http.ListenAndServe(":8000", promMiddleware(r))
 }
