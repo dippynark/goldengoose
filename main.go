@@ -66,8 +66,6 @@ func handler(logger *log.Logger) http.Handler {
 
 		doWork()
 
-		time.Sleep(2)
-
 		var err error
 		rr := &request{}
 		rr.Method = r.Method
