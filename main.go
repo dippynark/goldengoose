@@ -41,8 +41,8 @@ func promMiddleware(h http.Handler) http.Handler {
 }
 
 const (
-	loopCount      = 500000000
-	delayWorkCount = 500000000
+	loopCount      = 80000000
+	delayWorkCount = 80000000
 )
 
 func doWork() {
