@@ -64,7 +64,7 @@ func handler(logger *log.Logger) http.Handler {
 
 		logClientIP(logger, r)
 
-		//doWork()
+		doWork()
 
 		var err error
 		rr := &request{}
