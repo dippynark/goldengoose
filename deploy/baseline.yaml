@@ -9,11 +9,13 @@ spec:
     matchLabels:
       app: goldengoose
       track: baseline
+      traffic: mirror
   template:
     metadata:
       labels:
         app: goldengoose
         track: baseline
+        traffic: mirror
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8000"
