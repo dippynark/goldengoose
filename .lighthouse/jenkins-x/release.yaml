@@ -1,0 +1,64 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  labels:
+    jenkins.io/pipelineType: build
+  name: goldengoose-release
+spec:
+  pipelineSpec:
+
+    params:
+    - description: git url to clone
+      name: REPO_URL
+      type: string
+    - default: master
+      description: git revision to checkout (branch, tag, sha, ref…)
+      name: PULL_PULL_SHA
+      type: string
+    - default: dippynark/goldengoose
+      description:  The registry to push the built image to
+      name: REGISTRY
+      type: string
+    # unused
+    - description: git pull request number
+      name: PULL_NUMBER
+      type: string
+    - default: source
+      description: subdirectory inside of /workspace to clone the git repo
+      name: subdirectory
+      type: string
+
+    workspaces:
+    - name: shared-data
+      description: |
+        This workspace will receive the cloned git repo and be passed
+        to the next Task for the repo's README.md file to be read.
+
+    tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: shared-data
+      params:
+      - name: url
+        value: $(params.REPO_URL)
+      - name: revision
+        value: $(params.PULL_PULL_SHA)
+
+    - name: docker-build
+      runAfter: ["git-clone"]
+      taskRef:
+        name: docker-build
+      workspaces:
+      - name: source
+        workspace: shared-data
+      params:
+      - name: image
+        value: $(params.REGISTRY):$(params.PULL_PULL_SHA)
+  podTemplate:
+    hostNetwork: false
+    schedulerName: ""
+  serviceAccountName: tekton-bot
+  timeout: 240h0m0s
