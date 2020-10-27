@@ -1,0 +1,34 @@
+{{- if and (.Values.jxRequirements.ingress.domain) (not .Values.knativeDeploy) }}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  annotations:
+{{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
+    jenkins.io/host: "{{ .Values.jxRequirements.ingress.domain }}"
+{{- end }}
+{{- if .Values.jxRequirements.gateway.annotations }}
+{{ toYaml .Values.jxRequirements.gateway.annotations | indent 4 }}
+{{- end }}
+  name: {{ .Values.service.name }}
+spec:
+  selector:
+    app: istio-ingressgateway
+  servers:
+  - port:
+      number: 8080
+      name: http-{{ .Values.service.name }}
+      protocol: HTTP
+    hosts:
+    - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 8443
+      name: https-{{ .Values.service.name }}
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: {{ .Values.service.name }}-tls
+    hosts:
+    - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}

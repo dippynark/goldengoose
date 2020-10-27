@@ -72,8 +72,8 @@ readinessProbe:
   timeoutSeconds: 1
 
 
-# custom ingress annotations on this service
-ingress:
+# custom gateway annotations on this service
+gateway:
   annotations:
 #      kubernetes.io/ingress.class: nginx
 
