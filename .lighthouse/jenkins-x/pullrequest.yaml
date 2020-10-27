@@ -245,7 +245,7 @@ spec:
           name: build-container-build
           resources: {}
         - args:
-          - source /workspace/source/.jx/variables.sh && jx preview create --debug
+          - source /workspace/source/.jx/variables.sh && cd preview && jx preview create --debug
           command:
           - /bin/bash
           - -c
