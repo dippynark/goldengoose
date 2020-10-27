@@ -9,7 +9,7 @@ spec:
   servers:
   - port:
       number: 8080
-      name: http-{{ .Values.service.name }}
+      name: http-{{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}
       protocol: HTTP
     hosts:
     - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
@@ -17,7 +17,7 @@ spec:
       httpsRedirect: true
   - port:
       number: 8443
-      name: https-{{ .Values.service.name }}
+      name: https-{{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}
       protocol: HTTPS
     tls:
       mode: SIMPLE

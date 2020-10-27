@@ -57,8 +57,8 @@ resources:
     cpu: 400m
     memory: 256Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 10m
+    memory: 10Mi
 probePath: /
 livenessProbe:
   initialDelaySeconds: 60
@@ -70,6 +70,12 @@ readinessProbe:
   periodSeconds: 10
   successThreshold: 1
   timeoutSeconds: 1
+
+
+# custom gateway annotations on this service
+ingress:
+  annotations:
+#      kubernetes.io/ingress.class: nginx
 
 # values we use from the `jx-requirements.yml` file if we are using helmfile and helm 3
 jxRequirements:
