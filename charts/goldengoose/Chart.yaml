@@ -1,4 +1,5 @@
-name: goldengoose
-description: A Helm chart for Kubernetes
 apiVersion: v1
-version: 0.1.0-SNAPSHOT
+appVersion: 0.0.6
+description: A Helm chart for Kubernetes
+name: goldengoose
+version: 0.0.6
