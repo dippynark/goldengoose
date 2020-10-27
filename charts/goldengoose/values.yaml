@@ -77,6 +77,9 @@ ingress:
   annotations:
 #      kubernetes.io/ingress.class: nginx
 
+gateway:
+  credentialName: jx-lukeaddison-co-uk-wildcard-tls
+
 # values we use from the `jx-requirements.yml` file if we are using helmfile and helm 3
 jxRequirements:
   ingress:
