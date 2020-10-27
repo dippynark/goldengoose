@@ -1,0 +1,17 @@
+{{- if and (.Values.jxRequirements.ingress.domain) (not .Values.knativeDeploy) }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Values.service.name }}
+spec:
+  hosts:
+  - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  gateways:
+  - {{ .Values.service.name }}
+  http:
+  - match:
+    - port: 8443
+    route:
+    - destination:
+        host: {{ .Values.service.name }}
+{{- end }}
