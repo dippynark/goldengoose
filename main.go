@@ -83,6 +83,7 @@ func handler(logger *log.Logger) http.Handler {
 
 		rw.Header().Set("Content-Type", "text/plain")
 		rw.Write(rrb)*/
+
 		rw.Header().Set("Content-Type", "text/plain")
 		rw.Write([]byte("Hello from goldengoose!"))
 
