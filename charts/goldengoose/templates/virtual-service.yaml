@@ -14,4 +14,6 @@ spec:
     route:
     - destination:
         host: {{ .Values.service.name }}
+        port:
+          number: {{ .Values.service.externalPort }}
 {{- end }}
