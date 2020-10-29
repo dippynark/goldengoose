@@ -32,7 +32,7 @@ canary:
   progressDeadlineSeconds: 60
   analysis:
     interval: "1m"
-    threshold: 2
+    threshold: 5
     maxWeight: 60
     stepWeight: 20
     # WARNING: Canary deployments will fail and rollback if there is no traffic that will generate the below specified metrics.
