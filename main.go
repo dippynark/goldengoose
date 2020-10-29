@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -66,7 +64,7 @@ func handler(logger *log.Logger) http.Handler {
 
 		doWork()
 
-		var err error
+		/*var err error
 		rr := &request{}
 		rr.Method = r.Method
 		rr.Headers = r.Header
@@ -83,8 +81,10 @@ func handler(logger *log.Logger) http.Handler {
 			return
 		}
 
-		rw.Header().Set("Content-Type", "application/json")
-		rw.Write(rrb)
+		rw.Header().Set("Content-Type", "text/plain")
+		rw.Write(rrb)*/
+		rw.Header().Set("Content-Type", "text/plain")
+		rw.Write([]byte("Hello from goldengoose!"))
 
 	})
 }
