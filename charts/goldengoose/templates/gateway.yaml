@@ -24,7 +24,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: {{ .Values.gateway.credentialName }}
+      credentialName: {{ .Values.service.name }}-tls
     hosts:
     - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}
