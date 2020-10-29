@@ -28,7 +28,7 @@ hpa:
 # Canary deployments
 # If enabled, Istio and Flagger need to be installed in the cluster
 canary:
-  enabled: false
+  enabled: true
   progressDeadlineSeconds: 60
   analysis:
     interval: "1m"
