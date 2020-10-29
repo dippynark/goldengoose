@@ -79,6 +79,7 @@ ingress:
 
 gateway:
   credentialName: lukeaddison-co-uk-wildcard-tls
+  hostnameTarget: lukeaddison.co.uk
 
 # values we use from the `jx-requirements.yml` file if we are using helmfile and helm 3
 jxRequirements:

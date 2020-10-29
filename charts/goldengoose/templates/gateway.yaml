@@ -3,6 +3,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: {{ .Values.service.name }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    external-dns.alpha.kubernetes.io/target: {{ .Values.gateway.hostnameTarget }}
 spec:
   selector:
     app: istio-ingressgateway
