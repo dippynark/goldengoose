@@ -32,13 +32,13 @@ spec:
     maxWeight: {{ .Values.canary.analysis.maxWeight }}
     stepWeight: {{ .Values.canary.analysis.stepWeight }}
     metrics:
-    - name: not-found-percentage
+    - name: latency
       templateRef:
-        name: not-found-percentage
+        name: latency
         namespace: istio-system
       thresholdRange:
-        max: {{ .Values.canary.analysis.metrics.notFoundPercentage.threshold }}
-      interval: {{ .Values.canary.analysis.metrics.notFoundPercentage.interval | quote }}
+        max: {{ .Values.canary.analysis.metrics.latency.threshold }}
+      interval: {{ .Values.canary.analysis.metrics.latency.interval | quote }}
 
 ---
 
