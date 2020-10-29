@@ -20,3 +20,12 @@ releases:
     - "secret.jenkins-x.io/replica-source=true"
     - --to
     - '{{ requiredEnv "PREVIEW_NAMESPACE" }}'
+  - events: ["presync"]
+    showlogs: true
+    command: "kubectl"
+    args:
+    - label
+    - namespace
+    - '{{ requiredEnv "PREVIEW_NAMESPACE" }}'
+    - istio-injection=enabled
+    - --overwrite
