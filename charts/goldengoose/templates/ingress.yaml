@@ -3,6 +3,8 @@ apiVersion: {{ .Values.jxRequirements.ingress.apiVersion }}
 kind: Ingress
 metadata:
   annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    external-dns.alpha.kubernetes.io/target: {{ .Values.gateway.hostnameTarget }}
     kubernetes.io/ingress.class: nginx
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
     jenkins.io/host: "{{ .Values.jxRequirements.ingress.domain }}"
