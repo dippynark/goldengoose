@@ -7,7 +7,7 @@ spec:
   hosts:
   - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   gateways:
-  - {{ .Values.service.name }}
+  - istio-system/istio-ingressgateway
   http:
   - match:
     - port: 8443
