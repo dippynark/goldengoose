@@ -223,7 +223,7 @@ spec:
           - jx step next-version --use-git-tag-only
           command:
           - /bin/sh
-          image: gcr.io/jenkinsxio/builder-go
+          image: gcr.io/jenkinsxio/builder-go:2.1.150-771
           name: next-version
           resources: {}
         - args:
@@ -231,7 +231,7 @@ spec:
           - jx step tag --version $(cat VERSION) --no-apply
           command:
           - /bin/sh
-          image: gcr.io/jenkinsxio/builder-go
+          image: gcr.io/jenkinsxio/builder-go:2.1.150-771
           name: update-version
           resources: {}
         - args:
@@ -247,7 +247,7 @@ spec:
           - jx step tag --version $(cat VERSION)
           command:
           - /bin/sh
-          image: gcr.io/jenkinsxio/builder-go
+          image: gcr.io/jenkinsxio/builder-go:2.1.150-771
           name: tag-version
           resources: {}
         - args:
