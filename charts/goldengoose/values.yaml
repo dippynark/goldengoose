@@ -74,7 +74,6 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 
-
 # custom gateway annotations on this service
 ingress:
   annotations:
