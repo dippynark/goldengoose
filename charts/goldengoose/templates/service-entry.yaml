@@ -2,10 +2,18 @@
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
+  {{- if .Values.jxRequirements.ingress.domain }}
   name: {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- else }}
+  name: {{ .Values.service.name }}
+  {{- end }}
 spec:
   hosts:
+  {{- if .Values.jxRequirements.ingress.domain }}
   - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- else }}
+  - {{ .Values.service.name }}
+  {{- end }}
   location: MESH_EXTERNAL
   resolution: DNS
   ports:
