@@ -46,4 +46,10 @@ spec:
       metadata:
         type: cmd
         cmd: "hey -z {{ .Values.canary.analysis.interval }} -q 10 -c 2 -h2 https://{{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}"
+    - name: loadtester
+      url: http://loadtester
+      timeout: 5s
+      metadata:
+        type: cmd
+        cmd: "hey -z {{ .Values.canary.analysis.interval }} -q 10 -c 2 -h2 https://{{ .Values.service.name }}.{{ .Release.Namespace }}:{{ .Values.service.externalPort }}"
 {{- end }}
