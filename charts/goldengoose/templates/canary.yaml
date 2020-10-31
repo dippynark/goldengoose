@@ -26,6 +26,13 @@ spec:
     - istio-system/istio-ingressgateway
     hosts:
     - {{ .Values.canary.host | default (printf "%s%s%s"  .Values.service.name .Values.jxRequirements.ingress.namespaceSubDomain .Values.jxRequirements.ingress.domain) }}
+  webhooks:
+  - name: loadtester
+    url: http://loadtester
+    timeout: 5s
+    metadata:
+      type: cmd
+      cmd: "hey -z 1m -q 10 -c 2 -h2 https://{{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}"
   analysis:
     interval: {{ .Values.canary.analysis.interval }}
     threshold: {{ .Values.canary.analysis.threshold }}
