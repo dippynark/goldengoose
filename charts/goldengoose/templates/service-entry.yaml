@@ -1,0 +1,17 @@
+{{- if .Values.canary.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+spec:
+  exportTo:
+  - .
+  hosts:
+  - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  location: MESH_EXTERNAL
+  ports:
+  - name: https
+    number: 443
+    protocol: https
+  resolution: DNS
+{{- end }}
