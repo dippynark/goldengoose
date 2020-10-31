@@ -7,9 +7,9 @@ spec:
   hosts:
   - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   location: MESH_EXTERNAL
+  resolution: DNS
   ports:
   - name: https
     number: 443
     protocol: https
-  resolution: DNS
 {{- end }}
