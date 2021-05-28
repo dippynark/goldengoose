@@ -1,6 +1,6 @@
 FROM golang:1.16 as builder
 
-WORKDIR /workspace
+WORKDIR /build
 COPY go.mod go.mod
 COPY go.sum go.sum
 RUN go mod download
@@ -11,7 +11,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o goldengoose main.go
 
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
-COPY --from=builder /workspace/goldengoose .
+COPY --from=builder /build/goldengoose .
 USER nonroot:nonroot
 
 ENTRYPOINT ["/goldengoose"]
