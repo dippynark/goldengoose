@@ -89,4 +89,6 @@ func main() {
 	r := httprouter.New()
 	r.Handler("GET", "/", handler(logger))
 	r.Handler("GET", "/delay", delayHandler(logger))
+
+	http.ListenAndServe(":8000", r)
 }
