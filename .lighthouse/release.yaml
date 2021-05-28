@@ -90,8 +90,6 @@ spec:
           - --dockerfile=Dockerfile
           - --context=dir:///workspace
           - --destination=dippynark/goldengoose:$(inputs.params.tag)
-          - --cache
-          - --cache-repo=dippynark/goldengoose-cache
           volumeMounts:
           - name: kaniko-secret
             mountPath: /kaniko/.docker
