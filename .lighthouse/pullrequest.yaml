@@ -47,9 +47,9 @@ spec:
             git config --global --add user.email lukeaddison785@gmail.com;
             git config --global credential.helper store;
             git clone $(inputs.params.REPO_URL) .;
-            echo cloned url: $(inputs.params.REPO_URL) to dir: `pwd`;
+            echo Cloned url: $(inputs.params.REPO_URL) to dir: `pwd`;
             git merge $(inputs.params.PULL_PULL_SHA);
-            echo merged PULL_PULL_SHA into master: $(inputs.params.PULL_PULL_SHA) to dir: `pwd`
+            echo Merged PULL_PULL_SHA into master: $(inputs.params.PULL_PULL_SHA) to dir: `pwd`
           workingDir: /workspace
         - name: kaniko-build-push
           image: gcr.io/kaniko-project/executor:v1.6.0
