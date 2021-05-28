@@ -3,10 +3,6 @@ kind: Service
 metadata:
   name: goldengoose
   namespace: goldengoose
-  labels:
-    app: goldengoose
-  annotations:
-    prometheus.io/scrape: "true"
 spec:
   type: LoadBalancer
   ports:

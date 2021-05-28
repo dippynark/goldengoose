@@ -1,0 +1,7 @@
+resources:
+- ./namespace.yaml
+- ./service.yaml
+- ./deployment.yaml
+images:
+- name: dippynark/goldengoose
+  newTag: wargaming
