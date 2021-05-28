@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	loopCount = 500000000
+	loopCount = 10000000
 )
 
 func doWork() {
