@@ -80,12 +80,12 @@ spec:
             git config --global --add user.email lukeaddison785@gmail.com;
             git config --global credential.helper store;
             git clone $(inputs.params.REPO_URL) .;
-            echo cloned url: $(inputs.params.REPO_URL) to dir: `pwd`;
+            echo Cloned url: $(inputs.params.REPO_URL) to dir: `pwd`;
             git checkout $(inputs.params.PULL_BASE_REF);
-            echo checked out PULL_BASE_REF: $(inputs.params.PULL_BASE_REF) to dir: `pwd`
+            echo Checked out PULL_BASE_REF: $(inputs.params.PULL_BASE_REF) to dir: `pwd`
           workingDir: /workspace
         - name: kaniko-build-push
-          image: gcr.io/kaniko-project/executor:v1.3.0
+          image: gcr.io/kaniko-project/executor:v1.6.0
           args:
           - --dockerfile=Dockerfile
           - --context=dir:///workspace
