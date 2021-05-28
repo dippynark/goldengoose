@@ -59,6 +59,7 @@ spec:
           - --destination=dippynark/goldengoose:$(inputs.params.PULL_PULL_SHA)
           - --cache
           - --cache-repo=dippynark/goldengoose-cache
+          - --cache-copy-layers
           volumeMounts:
           - name: kaniko-secret
             mountPath: /kaniko/.docker
