@@ -5,7 +5,9 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 	"time"
 
 	"github.com/julienschmidt/httprouter"
@@ -13,7 +15,7 @@ import (
 
 const (
 	workerCount = 2
-	loopCount   = 100000000
+	loopCount   = 200000000
 )
 
 func doWork() {
@@ -93,6 +95,16 @@ func logClientIP(logger *log.Logger, r *http.Request) {
 }
 
 func main() {
+
+	// Setup signal handler for TERM signal
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGTERM)
+	go func() {
+		for range c {
+			time.Sleep(3 * time.Second)
+			os.Exit(0)
+		}
+	}()
 
 	logger := log.New(os.Stdout, "", log.LstdFlags)
 	logger.Println("Server is starting...")
