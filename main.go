@@ -25,6 +25,7 @@ func doWork() {
 	for i := 1; i <= workerCount; i++ {
 		wg.Add(1)
 		go func() {
+			defer wg.Done()
 			for i := 0; i < loopCount/workerCount; i++ {
 				select {
 				case <-done:
