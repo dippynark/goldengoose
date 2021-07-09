@@ -12,20 +12,30 @@ import (
 )
 
 const (
-	loopCount = 160000000
+	workerCount = 2
+	loopCount   = 200000000
 )
 
 func doWork() {
 
 	done := make(chan int)
 
-	for i := 0; i < loopCount; i++ {
-		select {
-		case <-done:
-			return
-		default:
-		}
+	var wg sync.WaitGroup
+
+	for i := 1; i <= workerCount; i++ {
+		wg.Add(1)
+		go func() {
+			for i := 0; i < loopCount/workerCount; i++ {
+				select {
+				case <-done:
+					return
+				default:
+				}
+			}
+		}()
 	}
+
+	wg.Wait()
 
 }
 
