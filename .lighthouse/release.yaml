@@ -42,63 +42,63 @@ spec:
               TAG="latest"
             fi
             echo -n $TAG > $(results.tag.path)
-    - name: clone-build-test-push
-      params:
-      - name: REPO_URL
-        value: $(params.REPO_URL)
-      - name: PULL_BASE_REF
-        value: $(params.PULL_BASE_REF)
-      - name: tag
-        value: $(tasks.calculate-image-tag.results.tag)
-      taskSpec:
-        params:
-        - description: git url to clone
-          name: REPO_URL
-          type: string
-        - default: master
-          description: the base git reference of the pull request
-          name: PULL_BASE_REF
-          type: string
-        - description: Docker image tag
-          name: tag
-          type: string
-        stepTemplate:
-          name: ""
-          volumeMounts:
-          - name: workspace
-            mountPath: /workspace
-        steps:
-        - name: git-clone
-          image: alpine/git:v2.30.0
-          command:
-          - /bin/sh
-          args:
-          - -ce
-          - |
-            mkdir -p $HOME;
-            git config --global --add user.name dippynark-bot;
-            git config --global --add user.email lukeaddison785@gmail.com;
-            git config --global credential.helper store;
-            git clone $(inputs.params.REPO_URL) .;
-            echo Cloned url: $(inputs.params.REPO_URL) to dir: `pwd`;
-            git checkout $(inputs.params.PULL_BASE_REF);
-            echo Checked out PULL_BASE_REF: $(inputs.params.PULL_BASE_REF) to dir: `pwd`
-          workingDir: /workspace
-        - name: kaniko-build-push
-          image: gcr.io/kaniko-project/executor:v1.6.0
-          args:
-          - --dockerfile=Dockerfile
-          - --context=dir:///workspace
-          - --destination=dippynark/goldengoose:$(inputs.params.tag)
-          volumeMounts:
-          - name: kaniko-secret
-            mountPath: /kaniko/.docker
-        volumes:
-        - name: workspace
-          emptyDir: {}
-        - name: kaniko-secret
-          secret:
-            secretName: tekton-container-registry-auth
-            items:
-            - key: .dockerconfigjson
-              path: config.json
+    # - name: clone-build-test-push
+    #   params:
+    #   - name: REPO_URL
+    #     value: $(params.REPO_URL)
+    #   - name: PULL_BASE_REF
+    #     value: $(params.PULL_BASE_REF)
+    #   - name: tag
+    #     value: $(tasks.calculate-image-tag.results.tag)
+    #   taskSpec:
+    #     params:
+    #     - description: git url to clone
+    #       name: REPO_URL
+    #       type: string
+    #     - default: master
+    #       description: the base git reference of the pull request
+    #       name: PULL_BASE_REF
+    #       type: string
+    #     - description: Docker image tag
+    #       name: tag
+    #       type: string
+    #     stepTemplate:
+    #       name: ""
+    #       volumeMounts:
+    #       - name: workspace
+    #         mountPath: /workspace
+    #     steps:
+    #     - name: git-clone
+    #       image: alpine/git:v2.30.0
+    #       command:
+    #       - /bin/sh
+    #       args:
+    #       - -ce
+    #       - |
+    #         mkdir -p $HOME;
+    #         git config --global --add user.name dippynark-bot;
+    #         git config --global --add user.email lukeaddison785@gmail.com;
+    #         git config --global credential.helper store;
+    #         git clone $(inputs.params.REPO_URL) .;
+    #         echo Cloned url: $(inputs.params.REPO_URL) to dir: `pwd`;
+    #         git checkout $(inputs.params.PULL_BASE_REF);
+    #         echo Checked out PULL_BASE_REF: $(inputs.params.PULL_BASE_REF) to dir: `pwd`
+    #       workingDir: /workspace
+    #     - name: kaniko-build-push
+    #       image: gcr.io/kaniko-project/executor:v1.6.0
+    #       args:
+    #       - --dockerfile=Dockerfile
+    #       - --context=dir:///workspace
+    #       - --destination=dippynark/goldengoose:$(inputs.params.tag)
+    #       volumeMounts:
+    #       - name: kaniko-secret
+    #         mountPath: /kaniko/.docker
+    #     volumes:
+    #     - name: workspace
+    #       emptyDir: {}
+    #     - name: kaniko-secret
+    #       secret:
+    #         secretName: tekton-container-registry-auth
+    #         items:
+    #         - key: .dockerconfigjson
+    #           path: config.json
