@@ -53,6 +53,9 @@ spec:
           workingDir: /workspace
         - name: kaniko-build-push
           image: gcr.io/kaniko-project/executor:v1.6.0
+          # Although this is the entrypoint, make to sure to set it otherwise Tekton hangs
+          command:
+          - /kaniko/executor
           args:
           - --dockerfile=Dockerfile
           - --context=dir:///workspace

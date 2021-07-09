@@ -61,6 +61,11 @@ spec:
         - description: Docker image tag
           name: tag
           type: string
+        stepTemplate:
+          name: ""
+          volumeMounts:
+          - name: workspace
+            mountPath: /workspace
         steps:
         - name: git-clone
           image: alpine/git:v2.30.0
@@ -78,9 +83,6 @@ spec:
             git checkout $(params.PULL_BASE_REF);
             echo Checked out PULL_BASE_REF: $(params.PULL_BASE_REF) to dir: `pwd`
           workingDir: /workspace
-          volumeMounts:
-          - name: workspace
-            mountPath: /workspace
         - name: kaniko-build-push
           image: gcr.io/kaniko-project/executor:v1.6.0
           # Although this is the entrypoint, make to sure to set it otherwise Tekton hangs
@@ -93,8 +95,6 @@ spec:
           volumeMounts:
           - name: kaniko-secret
             mountPath: /kaniko/.docker
-          - name: workspace
-            mountPath: /workspace
         volumes:
         - name: workspace
           emptyDir: {}
