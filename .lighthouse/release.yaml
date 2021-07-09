@@ -40,7 +40,7 @@ spec:
             if [ "$TAG" = "master" ]; then
               TAG="latest"
             fi
-            echo -n $TAG | tee $(results.tag.path)
+            echo -n $TAG > $(results.tag.path)
     - name: clone-build-test-push
       params:
       - name: REPO_URL
@@ -83,6 +83,7 @@ spec:
             mountPath: /workspace
         - name: kaniko-build-push
           image: gcr.io/kaniko-project/executor:v1.6.0
+          # Although this is the entrypoint, make to sure to set it otherwise Tekton hangs
           command:
           - /kaniko/executor
           args:
